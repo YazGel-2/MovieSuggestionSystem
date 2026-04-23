@@ -11,3 +11,8 @@ def drop_duplicates():
     df = pd.read_csv("DataSets/MovieReviews_CleanedColumns.csv")
     df = df.drop_duplicates(subset=["Reviews"])
     df.to_csv("DataSets/MovieReviews_NoDuplicates.csv", index=False)
+
+def drop_empties():
+    df = pd.read_csv("DataSets/MovieReviews_NoDuplicates.csv")
+    df_clean = df.dropna()
+    df_clean.to_csv("DataSets/MovieReviews_Cleaned.csv", index=False)
