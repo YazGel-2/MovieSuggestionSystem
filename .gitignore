@@ -1,0 +1,6 @@
+#environment
+.venv
+venv/
+
+#dataset
+DataSets/MovieReviews_Raw.csv
