@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 
 
 def select_columns():
@@ -21,3 +22,24 @@ def do_lowercase():
     df = pd.read_csv("DataSets/MovieReviews_Cleaned.csv")
     df["Reviews"] = df["Reviews"].str.lower()
     df.to_csv("DataSets/MovieReviews_Lowercase.csv", index=False)
+
+def clean_noise():
+    df = pd.read_csv("DataSets/MovieReviews_Lowercase.csv")
+
+    def clean_text(text):
+        if pd.isna(text):
+            return text
+        
+        text = re.sub(r'http\S+|www\S+|https\S+', '', text)
+        
+        text = re.sub(r'\S+@\S+', '', text)
+        
+        text = re.sub(r'<.*?>', '', text)
+        
+        text = re.sub(r'\s+', ' ', text).strip()
+        
+        return text
+
+    df["Reviews"] = df["Reviews"].apply(clean_text)
+    
+    df.to_csv("DataSets/MovieReviews_NoNoise.csv", index=False)
