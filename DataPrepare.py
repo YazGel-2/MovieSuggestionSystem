@@ -16,3 +16,8 @@ def drop_empties():
     df = pd.read_csv("DataSets/MovieReviews_NoDuplicates.csv")
     df_clean = df.dropna()
     df_clean.to_csv("DataSets/MovieReviews_Cleaned.csv", index=False)
+
+def do_lowercase():
+    df = pd.read_csv("DataSets/MovieReviews_Cleaned.csv")
+    df["Reviews"] = df["Reviews"].str.lower()
+    df.to_csv("DataSets/MovieReviews_Lowercase.csv", index=False)

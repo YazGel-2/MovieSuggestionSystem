@@ -2,4 +2,5 @@ import DataPrepare as dpre
 
 #dpre.select_columns()
 #dpre.drop_duplicates()
-dpre.drop_empties()
+#dpre.drop_empties()
+dpre.do_lowercase()
