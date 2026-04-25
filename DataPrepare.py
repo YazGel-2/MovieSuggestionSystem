@@ -69,3 +69,10 @@ def remove_stopwords():
 
     df["Reviews"] = df["Reviews"].apply(clean_stopwords)
     df.to_csv("DataSets/MovieReviews_NoStopwords.csv", index=False)
+
+def tokenize():
+    df = pd.read_csv("DataSets/MovieReviews_NoStopwords.csv")
+    
+    df["Reviews"] = df["Reviews"].apply(lambda x: str(x).split())
+    
+    df.to_csv("DataSets/MovieReviews_Tokenized.csv", index=False)
