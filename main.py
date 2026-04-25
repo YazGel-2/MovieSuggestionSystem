@@ -6,4 +6,5 @@ import DataPrepare as dpre
 #dpre.do_lowercase()
 #dpre.clean_noise()
 #dpre.remove_punctuation()
-dpre.remove_stopwords()
+#dpre.remove_stopwords()
+dpre.tokenize()
