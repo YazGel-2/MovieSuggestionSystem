@@ -1,5 +1,8 @@
 import pandas as pd
 import re
+import string
+import nltk
+from nltk.corpus import stopwords
 
 
 def select_columns():
@@ -43,3 +46,26 @@ def clean_noise():
     df["Reviews"] = df["Reviews"].apply(clean_text)
     
     df.to_csv("DataSets/MovieReviews_NoNoise.csv", index=False)
+
+
+def remove_punctuation():
+    df = pd.read_csv("DataSets/MovieReviews_NoNoise.csv")
+    
+    df["Reviews"] = df["Reviews"].str.replace(f"[{re.escape(string.punctuation)}]", "", regex=True)
+    
+    df.to_csv("DataSets/MovieReviews_NoPunctuation.csv", index=False)
+
+
+def remove_stopwords():
+    df = pd.read_csv("DataSets/MovieReviews_NoPunctuation.csv")
+    
+    nltk.download('stopwords', quiet=True)
+    stop_words = set(stopwords.words('english'))
+    
+    def clean_stopwords(text):
+        if pd.isna(text):
+            return text
+        return " ".join([word for word in str(text).split() if word not in stop_words])
+
+    df["Reviews"] = df["Reviews"].apply(clean_stopwords)
+    df.to_csv("DataSets/MovieReviews_NoStopwords.csv", index=False)
