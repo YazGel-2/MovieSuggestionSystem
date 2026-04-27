@@ -1,8 +1,12 @@
 import pandas as pd
+import ast
 import re
 import string
 import nltk
 from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet
+from nltk import pos_tag
 
 
 def select_columns():
@@ -76,3 +80,41 @@ def tokenize():
     df["Reviews"] = df["Reviews"].apply(lambda x: str(x).split())
     
     df.to_csv("DataSets/MovieReviews_Tokenized.csv", index=False)
+
+def lemmatize():
+    df = pd.read_csv("DataSets/MovieReviews_Tokenized.csv")
+
+    nltk.download('wordnet', quiet=True)
+    nltk.download('averaged_perceptron_tagger', quiet=True)
+    nltk.download('omw-1.4', quiet=True)
+
+    lemmatizer = WordNetLemmatizer()
+
+    def get_wordnet_pos(tag):
+        if tag.startswith('J'):
+            return wordnet.ADJ
+        elif tag.startswith('V'):
+            return wordnet.VERB
+        elif tag.startswith('N'):
+            return wordnet.NOUN
+        elif tag.startswith('R'):
+            return wordnet.ADV
+        return wordnet.NOUN
+
+    def lemmatize_tokens(text):
+        if pd.isna(text):
+            return text
+        
+        if isinstance(text, str):
+            text = ast.literal_eval(text)
+
+        pos_tags = pos_tag(text)
+
+        return [
+            lemmatizer.lemmatize(word, get_wordnet_pos(pos))
+            for word, pos in pos_tags
+        ]
+
+    df["Reviews"] = df["Reviews"].apply(lemmatize_tokens)
+
+    df.to_csv("DataSets/MovieReviews_Lemmatized.csv", index=False)

@@ -7,4 +7,5 @@ import DataPrepare as dpre
 #dpre.clean_noise()
 #dpre.remove_punctuation()
 #dpre.remove_stopwords()
-dpre.tokenize()
+#dpre.tokenize()
+dpre.lemmatize()
