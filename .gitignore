@@ -4,6 +4,10 @@ __pycache__/
 #environment
 .venv
 venv/
+RobertaModel
+BertModel
 
 #dataset
 DataSets/MovieReviews_Raw.csv
+
+ModifiedDataSets/
